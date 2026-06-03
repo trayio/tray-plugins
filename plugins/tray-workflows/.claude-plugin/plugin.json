@@ -1,0 +1,22 @@
+{
+  "name": "tray-workflows",
+  "version": "1.0.2",
+  "description": "Build, run, and validate Tray workflows in natural language. Research connectors, configure authentication, and test integrations without leaving your AI IDE.",
+  "author": {
+    "name": "Tray.ai",
+    "email": "support@tray.ai"
+  },
+  "homepage": "https://tray.ai/platform/ai-development/tray-headless/",
+  "repository": "https://github.com/trayio/tray-plugins",
+  "license": "Apache-2.0",
+  "keywords": ["tray", "headless", "workflow", "integration", "automation", "iPaaS", "mcp", "connectors"],
+  "userConfig": {
+    "workspace_id": {
+      "type": "string",
+      "title": "Tray Workspace ID",
+      "description": "Your Tray Workspace ID (found in workspace settings)",
+      "sensitive": false,
+      "required": true
+    }
+  }
+}
