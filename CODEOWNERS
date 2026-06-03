@@ -1,0 +1,6 @@
+* @trayio/tray-claude-code-maintainers
+
+# Security-sensitive: the promotion workflow has trust in the public-repo
+# token and the per-commit PR-approval check. Changes must be reviewed by
+# Security and the promotion owner.
+/.github/workflows/promote.yml @trayio/security @thomaschaplin

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "tray": {
+      "type": "http",
+      "url": "https://api.tray.io/mcp"
+    }
+  }
+}
