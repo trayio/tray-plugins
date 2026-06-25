@@ -3,6 +3,12 @@
 All notable changes to the tray-workflows plugin are documented here.
 This project follows Semantic Versioning.
 
+## [1.0.3] — 2026-06-22
+
+### Added
+
+- **Codex packaging** for `tray-workflows` — the plugin is now installable in the [OpenAI Codex CLI](https://developers.openai.com/codex) (`codex plugin marketplace add trayio/tray-plugins`) alongside Claude Code. Same workflow tooling and skills, repackaged for Codex conventions (`AGENTS.md`, `.codex-plugin` manifest, TOML subagent). No change to the plugin's behaviour in Claude Code.
+
 ## [1.0.2] — 2026-06-03
 
 Initial public release of **tray-workflows**, the Tray plugin for Claude Code — part of Tray Headless.

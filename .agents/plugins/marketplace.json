@@ -1,0 +1,25 @@
+{
+  "name": "tray-plugins",
+  "owner": {
+    "name": "Tray.ai",
+    "email": "support@tray.ai"
+  },
+  "metadata": {
+    "description": "Tray Headless for Codex — build, run, and validate Tray.ai workflows in natural language from the Codex CLI."
+  },
+  "plugins": [
+    {
+      "name": "tray-workflows",
+      "source": {
+        "source": "local",
+        "path": "./plugins/codex/tray-workflows"
+      },
+      "description": "Build, run, and validate Tray workflows in natural language. Research connectors, configure authentication, and test integrations without leaving Codex.",
+      "category": "Productivity",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      }
+    }
+  ]
+}

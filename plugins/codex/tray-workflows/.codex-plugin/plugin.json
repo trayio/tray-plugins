@@ -1,0 +1,32 @@
+{
+  "name": "tray-workflows",
+  "version": "1.0.3",
+  "description": "Build, run, and validate Tray workflows in natural language. Research connectors, configure authentication, and test integrations without leaving Codex.",
+  "author": {
+    "name": "Tray.ai",
+    "email": "support@tray.ai"
+  },
+  "homepage": "https://tray.ai/platform/ai-development/tray-headless/",
+  "repository": "https://github.com/trayio/tray-plugins",
+  "license": "Apache-2.0",
+  "keywords": ["tray", "headless", "workflow", "integration", "automation", "iPaaS", "mcp", "connectors", "codex"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Tray workflows",
+    "shortDescription": "Build, run, and validate Tray workflows from Codex.",
+    "longDescription": "Build, modify, validate, and debug Tray workflows from Codex. Research connectors, configure auth, and inspect executions through Tray MCP.",
+    "developerName": "Tray.ai",
+    "category": "Productivity",
+    "capabilities": ["Workflow building", "Connector research", "Validation", "Debugging"],
+    "websiteURL": "https://tray.ai/platform/ai-development/tray-headless/",
+    "privacyPolicyURL": "https://tray.ai/legal/privacy-policy/",
+    "termsOfServiceURL": "https://tray.ai/legal/msa/",
+    "defaultPrompt": [
+      "Build a workflow that syncs new Salesforce leads to Slack",
+      "Research the Slack connector before I build",
+      "Validate this Tray workflow and fix the errors"
+    ],
+    "brandColor": "#4A54F5"
+  }
+}

@@ -1,0 +1,28 @@
+# Tray MCP server for Codex
+# ---------------------------
+# Merge this block into your Codex config at ~/.codex/config.toml
+# (or a project-level .codex/config.toml in a trusted project).
+#
+# The Tray MCP server is a REMOTE, streamable-HTTP server reached over a URL —
+# there is no local command to install. Codex connects to it directly.
+
+[mcp_servers.tray]
+url = "https://api.tray.io/mcp"
+
+# --- If the server is not detected on your Codex version ---------------------
+# Some Codex releases gate remote/HTTP MCP transport behind an experimental
+# feature flag. If `codex mcp list` does not show `tray`, add this near the top
+# of config.toml and restart Codex:
+#
+# [features]
+# experimental_use_rmcp_client = true
+#
+# (Leave it out first — recent Codex builds support `url =` natively.)
+
+# --- Authentication ----------------------------------------------------------
+# Tray uses OAuth2 (PKCE). After adding the server, sign in once:
+#
+#   codex mcp login tray
+#
+# Your browser opens to authorize. After that, Codex manages tokens for you;
+# the server acts in your Tray workspace as you.

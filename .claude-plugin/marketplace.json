@@ -13,7 +13,7 @@
       "name": "tray-workflows",
       "source": "./plugins/tray-workflows",
       "description": "Build, run, and validate Tray workflows in natural language. Research connectors, configure authentication, and test integrations without leaving your AI IDE.",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "author": {
         "name": "Tray.ai"
       },
