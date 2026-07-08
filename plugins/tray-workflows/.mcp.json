@@ -2,7 +2,7 @@
   "mcpServers": {
     "tray": {
       "type": "http",
-      "url": "https://api.tray.io/mcp"
+      "url": "${TRAY_MCP_URL:-https://api.tray.io}/mcp"
     }
   }
 }

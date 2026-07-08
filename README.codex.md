@@ -4,7 +4,7 @@ Build, modify, and manage [Tray.ai](https://tray.ai) workflows using natural lan
 
 This is the Codex packaging of Tray.ai's **[`tray-workflows`](https://github.com/trayio/tray-plugins)** workflow tooling (also available as a [Claude Code plugin](https://github.com/trayio/tray-plugins)). It connects Codex to your Tray workspace via the hosted **`tray` MCP server**, so you can describe an integration in plain English — *"sync new Salesforce leads to Slack"* — and have it planned, built, validated, and test-fired without leaving your terminal.
 
-> **⚠️ The tooling acts in your Tray workspace as you.** Once you sign in, it operates with **your Tray identity and permissions**. It can create, modify, and **delete** projects, workflows, and authentications, and — with your explicit go-ahead — run workflows that have real side effects. Every action is taken as you and only ever against the workspace you've configured.
+> **⚠️ The tooling acts as you, in the Tray workspace you sign in to.** It operates with **your Tray identity and permissions**. It can create, modify, and **delete** projects, workflows, and authentications, and — with your explicit go-ahead — run workflows that have real side effects. Every action is taken as you, in that workspace.
 
 ## What you get
 
@@ -18,7 +18,7 @@ It's the same Tray domain knowledge as the Claude Code plugin, repackaged for Co
 ## Requirements
 
 - [Codex CLI](https://developers.openai.com/codex) installed and on your `PATH`
-- A [Tray.ai](https://tray.ai) workspace and your **Workspace ID**
+- A [Tray.ai](https://tray.ai) account
 
 ## Installation
 
@@ -31,7 +31,7 @@ codex plugin marketplace add trayio/tray-plugins
 codex            # then run /plugins to install "tray-workflows"
 ```
 
-This bundles and registers the skills, the `tray-researcher` subagent, and the remote `tray` MCP server — no scripts, no files copied into your home directory by us. Because the Tray server is **remote (HTTP) and OAuth-based**, after install run `codex mcp login tray` (see [Authorize](#authorize)) and record your workspace ID (see [Set your workspace](#set-your-workspace)).
+This bundles and registers the skills, the `tray-researcher` subagent, and the remote `tray` MCP server — no scripts, no files copied into your home directory by us. Because the Tray server is **remote (HTTP) and OAuth-based**, after install run `codex mcp login tray` (see [Authorize](#authorize)).
 
 ### Option B — Manual (older Codex builds)
 
@@ -48,7 +48,7 @@ This bundles and registers the skills, the `tray-researcher` subagent, and the r
 
 3. **Install the subagent** — copy `plugins/codex/tray-workflows/agents/tray-researcher.toml` into `~/.codex/agents/`.
 
-4. **Add the instructions** — copy the `tray-workflows` block from [`AGENTS.md`](./AGENTS.md) into your project `AGENTS.md` (or `~/.codex/AGENTS.md`) and fill in your workspace ID.
+4. **Add the instructions** — copy the `tray-workflows` block from [`AGENTS.md`](./AGENTS.md) into your project `AGENTS.md` (or `~/.codex/AGENTS.md`).
 
 ## Authorize
 
@@ -59,18 +59,6 @@ codex mcp login tray
 ```
 
 Your browser opens to authorize. After that, Codex manages tokens automatically. There are no API tokens to create or manage manually.
-
-## Set your workspace
-
-Codex has no per-plugin config substitution, so the active workspace is recorded as a line in `AGENTS.md`:
-
-```
-Active Tray Workspace: <your-workspace-uuid>
-```
-
-Find the UUID in the Tray app URL: `https://app.tray.io/workspaces/<ID>/...`.
-
-Ask Codex to run the **`set-workspace`** skill (it updates the `AGENTS.md` block), or edit the line by hand. Project `AGENTS.md` overrides the global `~/.codex/AGENTS.md`, so different repos can target different workspaces.
 
 ## Getting started
 
@@ -101,8 +89,7 @@ tray-plugins/
         ├── research-connector/       # connector discovery via DDL
         ├── tray-connectors/          # core connector names/versions + type-wrapping
         ├── tray-patterns/            # structure: branches, loops, callables, scheduling
-        ├── tray-gotchas/             # error debugging + edge cases
-        └── set-workspace/            # record the active workspace in AGENTS.md
+        └── tray-gotchas/             # error debugging + edge cases
 ```
 
 ## Notes & caveats
