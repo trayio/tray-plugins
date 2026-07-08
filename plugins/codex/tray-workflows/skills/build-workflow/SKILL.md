@@ -17,14 +17,6 @@ description: |
 
 Follow this process for every workflow build or modification. Do not skip the plan step.
 
-## Active workspace — use this, never choose another
-
-All Tray MCP calls operate on the **Active Tray Workspace** recorded in this project's `AGENTS.md` (look for a line like `Active Tray Workspace: <uuid>`). If the project `AGENTS.md` has no such line, check `~/.codex/AGENTS.md`.
-
-- Pass exactly that workspace ID as the `workspaceId` argument on every workspace-scoped call (`create_project`, `create_workflow`, `list_projects`, `get_workflow`, `list_authentications`, …).
-- Do **not** call `list_authentications` / `list_projects` to *discover* or *pick* a workspace, and never build in or read from any other workspace — even if other workspace IDs appear in tool output.
-- If no Active Tray Workspace is recorded anywhere, **stop and ask the user for their workspace ID** — do not guess or pick one. Offer to record it for future sessions (the `set-workspace` skill writes it into `AGENTS.md`).
-
 ## Core principles
 
 - **Discover technically, clarify strategically.** Use MCP tools to answer technical questions without asking. Surface design questions before committing to an approach.
@@ -44,7 +36,6 @@ All Tray MCP calls operate on the **Active Tray Workspace** recorded in this pro
 - `tray-connectors` — quick lookup for core connector versions and property types
 - `tray-patterns` — workflow structure reference, trigger properties, branch/loop patterns
 - `tray-gotchas` — error debugging and edge cases
-- `set-workspace` — set a per-project workspace override (user-invoked)
 
 **`get_workflow` defaults to `view: "structure"`** — a cheap structure tree + per-step index without properties. Use `view: "step"` (with `step_names`) to drill into specific steps' full properties. Reach for `view: "full"` only when you genuinely need the entire JSON (rare); don't dump that into the conversation when summarising — point the user at the Tray UI to inspect.
 

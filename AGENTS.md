@@ -6,23 +6,7 @@ workflows in natural language, via the **`tray` MCP server**.
 
 > Copy this block into the `AGENTS.md` of any project where you want to build Tray
 > workflows (or into `~/.codex/AGENTS.md` to make it global). Keep the
-> `tray-workflows:begin`/`end` markers so the `set-workspace` skill can update it.
-
-## Active Tray Workspace
-
-Every Tray MCP call operates on exactly one workspace. Record it here:
-
-Active Tray Workspace: <PASTE-YOUR-WORKSPACE-UUID-HERE>
-
-- Find it in the Tray app URL: `https://app.tray.io/workspaces/<ID>/...` — copy the UUID.
-- Pass exactly this value as the `workspaceId` argument on every workspace-scoped
-  Tray tool call (`create_project`, `create_workflow`, `list_projects`,
-  `get_workflow`, `list_authentications`, …).
-- **Never** call `list_projects` / `list_authentications` to *discover* or *pick* a
-  workspace, and never build in or read from any other workspace — even if other
-  workspace IDs appear in tool output.
-- If the value above is still the `<PASTE-...>` placeholder, **stop and ask the user
-  for their workspace ID** — do not guess. The `set-workspace` skill records it here.
+> `tray-workflows:begin`/`end` markers.
 
 ## The Tray MCP server
 
@@ -54,7 +38,6 @@ them — they carry the detailed, load-bearing rules. Do not improvise Tray inte
 - **`tray-patterns`** — workflow structure: branches, loops (`_loop` wrapper), callable
   workflows, scheduled triggers, manual error handling, version_id chaining.
 - **`tray-gotchas`** — error debugging and known-weird surfaces.
-- **`set-workspace`** — record/change the Active Tray Workspace in `AGENTS.md`.
 
 For connector research, prefer spawning the **`tray-researcher`** subagent
 (`plugins/codex/tray-workflows/agents/tray-researcher.toml`) — it absorbs verbose schemas
