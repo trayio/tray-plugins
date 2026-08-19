@@ -27,7 +27,7 @@ Consult this when debugging workflow errors or working with complex structures.
 | String contains `{{` or template syntax | Used Handlebars/Mustache/moment.js — Tray has NO template engine | Use a script step to compose dynamic strings, then reference via jsonpath |
 | Step output returns null/empty at runtime | JsonPath doesn't match the referenced step's actual output schema | Build jsonpaths from the referenced step's output schema — different step types have different shapes. Note: `call_connector` nests data under `output`, but the workflow runtime may not — always verify the runtime shape |
 | Empty alert/email body inside an error branch | Used bare `$.errors.message` (Tray reads `errors` as a step name, needs the failed step's name next) or referenced the failed step's own output (empty on failure) | Use `$.errors.<failed-step-name>.<field>` — fields mirror the step's output schema in snake_case (e.g. `$.errors.http-client-1.message`, `$.errors.http-client-1.status_code`). The failed step's name is the second segment |
-| Workflow "passed" but downstream jsonpaths return undefined at runtime | `data` passed to `trigger_workflow` wasn't shaped like `$.steps.trigger` (e.g. payload at root instead of nested under `body` for a webhook) | Shape `data` as the full trigger envelope: webhook → `{body:{...}, query:{...}, headers:{...}}`, callable-trigger → `{data:{...}}`, form-trigger → `{result:{...}}`, agent-tool-trigger → `{tool_input:{...}}`. Returned `fired_payload_shape` is the literal `$.steps.trigger` — verify jsonpaths against it |
+| Workflow "passed" but downstream jsonpaths return undefined at runtime | `data` passed to `trigger_workflow` wasn't shaped like `$.steps.trigger` (e.g. payload at root instead of nested under `body` for a webhook) | Shape `data` as the full trigger envelope: webhook → `{body:{...}, query:{...}, headers:{...}}`, callable-trigger → flat `{<your fields>}` (they surface at `$.steps.trigger.<field>`), form-trigger → `{result:{...}}`, agent-tool-trigger → `{tool_input:{...}}`. Returned `fired_payload_shape` is the literal `$.steps.trigger` — verify jsonpaths against it |
 
 ## Runtime Debug Flow
 
@@ -37,7 +37,7 @@ When a workflow has run and you need to know why it succeeded or failed:
 
 1. Fire with `trigger_workflow(workflow_id, data)`. **Shape `data` exactly like `$.steps.trigger` should look at runtime** — i.e. the trigger's full envelope. Examples:
    - **webhook** → `data: {body: {<your fields>}, query: {}, headers: {}}` (method/path/body_url/etc. are optional; Tray fills them on a real fire)
-   - **callable-trigger** → `data: {data: {<your fields>}}`
+   - **callable-trigger** → `data: {<your fields>}` (fields are flat — a real `call-workflow` spreads `trigger_input` flat, so they surface at `$.steps.trigger.<field>`)
    - **form-trigger** → `data: {result: {<your fields>}}`
    - **agent-tool-trigger** → `data: {tool_input: {<your fields>}}` or `{static_data: {<your fields>}}`
 
@@ -167,10 +167,10 @@ Trigger output paths are deterministic: the segment immediately after `$.steps.t
 |---|---|
 | `webhook` | `body` (plus `query`, `headers` siblings) |
 | `form-trigger` | `result` |
-| `callable-trigger` | `data` (input fields land under here regardless of sync vs async invocation) |
+| `callable-trigger` | flat — input fields surface directly at `$.steps.trigger.<field>` (a real `call-workflow` spreads `trigger_input` flat); the validator accepts `$.steps.trigger.<x>` |
 | `agent-tool-trigger` | `tool_input` or `static_data` |
 
-The build-time validator (`validate_workflow` MCP tool) enforces this — paths like `$.steps.trigger.body.<x>` against a callable-trigger reject at build time with "available keys: data". If you see that error, the agent has used the wrong envelope key for the trigger type. The fix is always the same: read the trigger operation's `outputSchema.properties` and use one of those keys.
+The build-time validator (`validate_workflow` MCP tool) enforces this for every trigger type EXCEPT callable-trigger, which is the flat exception: paths like `$.steps.trigger.body.<x>` against a callable-trigger reject at build time with "available keys: data" (`outputSchema.properties` declares only `data`), but the validator accepts flat `$.steps.trigger.<field>` paths anyway, since a real `call-workflow` fire spreads `trigger_input` flat rather than nesting it under `data`. For every other trigger type, if you see an "available keys" rejection, the agent has used the wrong envelope key — the fix is to read the trigger operation's `outputSchema.properties` and use one of those keys.
 
 For unfamiliar trigger types (rare), call `list_connector_operations(connector_name: "<trigger>", operation_name: "<op>")` and look at the `outputSchema.properties` returned — never guess.
 
